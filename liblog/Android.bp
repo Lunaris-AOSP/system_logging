@@ -203,9 +203,6 @@ ndk_library {
     symbol_file: "liblog.map.txt",
     first_version: "9",
     unversioned_until: "current",
-    export_header_libs: [
-        "liblog_ndk_headers",
-    ],
 }
 
 rust_bindgen {
