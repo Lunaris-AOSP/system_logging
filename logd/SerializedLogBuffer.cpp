@@ -135,7 +135,7 @@ bool SerializedLogBuffer::ShouldLog(log_id_t log_id, const char* msg, uint16_t l
 
 int SerializedLogBuffer::Log(log_id_t log_id, log_time realtime, uid_t uid, pid_t pid, pid_t tid,
                              const char* msg, uint16_t len) {
-    if (log_id >= LOG_ID_MAX || len == 0) {
+    if (!__android_log_id_is_valid(log_id) || len == 0) {
         return -EINVAL;
     }
 

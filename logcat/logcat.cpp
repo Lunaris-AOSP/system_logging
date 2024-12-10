@@ -831,7 +831,7 @@ int Logcat::Run(int argc, char** argv) {
                         id_mask = -1;
                     } else {
                         log_id_t log_id = android_name_to_log_id(buffer.c_str());
-                        if (log_id >= LOG_ID_MAX) {
+                        if (!__android_log_id_is_valid(log_id)) {
                             error(EXIT_FAILURE, 0, "Unknown -b buffer '%s'.", buffer.c_str());
                         }
                         if (log_id == LOG_ID_SECURITY) {
@@ -1194,9 +1194,8 @@ If you have enabled significant logging, look into using the -G option to increa
             error(EXIT_FAILURE, errno, "Logcat read failure");
         }
 
-        if (log_msg.id() > LOG_ID_MAX) {
-            error(EXIT_FAILURE, 0, "Unexpected log id (%d) over LOG_ID_MAX (%d).", log_msg.id(),
-                  LOG_ID_MAX);
+        if (!__android_log_id_is_valid(static_cast<log_id_t>(log_msg.id()))) {
+            error(EXIT_FAILURE, 0, "Unexpected log id (%d) out of bounds.", log_msg.id());
         }
 
         if (!uids.empty() && uids.count(log_msg.entry.uid) == 0) {

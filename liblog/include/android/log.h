@@ -55,6 +55,7 @@
  */
 
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <sys/cdefs.h>
@@ -169,6 +170,10 @@ typedef enum log_id {
   /** Let the logging function choose the best log target. */
   LOG_ID_DEFAULT = 0x7FFFFFFF
 } log_id_t;
+
+static inline bool __android_log_id_is_valid(log_id_t id) {
+  return id >= LOG_ID_MIN && id < LOG_ID_MAX;
+}
 
 /**
  * Writes the constant string `text` to the log buffer `id`,

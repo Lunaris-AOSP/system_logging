@@ -80,7 +80,7 @@ bool SimpleLogBuffer::ShouldLog(log_id_t log_id, const char* msg, uint16_t len) 
 
 int SimpleLogBuffer::Log(log_id_t log_id, log_time realtime, uid_t uid, pid_t pid, pid_t tid,
                          const char* msg, uint16_t len) {
-    if (log_id >= LOG_ID_MAX) {
+    if (!__android_log_id_is_valid(log_id)) {
         return -EINVAL;
     }
 

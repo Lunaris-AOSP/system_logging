@@ -61,14 +61,14 @@ struct logger_list* android_logger_list_alloc_time(int mode, log_time start, pid
 }
 
 /* Open the named log and add it to the logger list */
-struct logger* android_logger_open(struct logger_list* logger_list, log_id_t logId) {
-  if (!logger_list || (logId >= LOG_ID_MAX)) {
+struct logger* android_logger_open(struct logger_list* logger_list, log_id_t log_id) {
+  if (!logger_list || !__android_log_id_is_valid(log_id)) {
     return nullptr;
   }
 
-  logger_list->log_mask |= 1 << logId;
+  logger_list->log_mask |= 1 << log_id;
 
-  uintptr_t logger = logId;
+  uintptr_t logger = log_id;
   logger |= (logger_list->mode & ANDROID_LOG_PSTORE) ? LOGGER_PMSG : LOGGER_LOGD;
   return reinterpret_cast<struct logger*>(logger);
 }

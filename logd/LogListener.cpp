@@ -98,8 +98,7 @@ void LogListener::HandleData() {
     android_log_header_t* header =
         reinterpret_cast<android_log_header_t*>(buffer);
     log_id_t logId = static_cast<log_id_t>(header->id);
-    if (/* logId < LOG_ID_MIN || */ logId >= LOG_ID_MAX ||
-        logId == LOG_ID_KERNEL) {
+    if (!__android_log_id_is_valid(logId) || logId == LOG_ID_KERNEL) {
         return;
     }
 

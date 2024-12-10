@@ -178,7 +178,7 @@ int CommandListener::GetStatisticsCmd::runCommand(SocketClient* cli, int argc, c
             }
 
             int id = atoi(argv[i]);
-            if ((id < LOG_ID_MIN) || (LOG_ID_MAX <= id)) {
+            if (!__android_log_id_is_valid(static_cast<log_id_t>(id))) {
                 cli->sendMsg("Range Error");
                 return 0;
             }
