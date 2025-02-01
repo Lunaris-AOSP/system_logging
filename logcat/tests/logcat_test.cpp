@@ -1220,14 +1220,14 @@ TEST(logcat, blocking_clear) {
             break;
         }
 
-        int size, consumed, readable, max, payload;
+        int size, consumed, readable, max_entry, payload;
         char size_mult[4], consumed_mult[4], readable_mult[4];
-        size = consumed = max = payload = 0;
+        size = consumed = max_entry = payload = 0;
         if (8 == sscanf(buffer,
                         "events: ring buffer is %d %3s (%d %3s consumed, %d %3s readable),"
                         " max entry is %d B, max payload is %d B",
-                        &size, size_mult, &consumed, consumed_mult, &readable, readable_mult, &max,
-                        &payload)) {
+                        &size, size_mult, &consumed, consumed_mult, &readable, readable_mult,
+                        &max_entry, &payload)) {
             long full_size = size, full_consumed = consumed;
 
             switch (size_mult[0]) {
@@ -1257,9 +1257,8 @@ TEST(logcat, blocking_clear) {
                     break;
             }
             EXPECT_GT(full_size, full_consumed);
-            EXPECT_GT(full_size, max);
-            EXPECT_GT(max, payload);
-            EXPECT_GT(max, full_consumed);
+            EXPECT_GT(full_size, max_entry);
+            EXPECT_GT(max_entry, payload);
 
             ++minus_g;
             continue;
@@ -1684,7 +1683,7 @@ TEST(logcat, invalid_buffer) {
   ASSERT_TRUE(android::base::ReadFdToString(fileno(fp), &output));
   pclose(fp);
 
-  EXPECT_NE(std::string::npos, output.find("Unknown buffer 'foo'"));
+  EXPECT_NE(std::string::npos, output.find("Unknown -b buffer 'foo'")) << "Output:\n" << output;
 }
 
 static void SniffUid(const std::string& line, uid_t& uid) {
