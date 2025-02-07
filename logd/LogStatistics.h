@@ -522,7 +522,6 @@ class LogStatistics {
 
     const char* PidToName(pid_t pid) const EXCLUDES(lock_);
     uid_t PidToUid(pid_t pid) EXCLUDES(lock_);
-    const char* UidToName(uid_t uid) const EXCLUDES(lock_);
 
     void set_overhead(log_id_t id, size_t size) {
         auto lock = std::lock_guard{lock_};
