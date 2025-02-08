@@ -224,11 +224,6 @@ void LogStatistics::Subtract(LogStatisticsElement element) {
     tagNameTable.Subtract(TagNameKey(element), element);
 }
 
-const char* LogStatistics::UidToName(uid_t uid) const {
-    auto lock = std::lock_guard{lock_};
-    return UidToNameLocked(uid);
-}
-
 // caller must own and free character string
 const char* LogStatistics::UidToNameLocked(uid_t uid) const {
     // Local hard coded favourites
