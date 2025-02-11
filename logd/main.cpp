@@ -283,7 +283,7 @@ int main(int argc, char* argv[]) {
     LogAudit* al = nullptr;
     if (auditd) {
         int dmesg_fd = GetBoolProperty("ro.logd.auditd.dmesg", true) ? fdDmesg : -1;
-        al = new LogAudit(log_buffer, dmesg_fd, &log_statistics);
+        al = new LogAudit(log_buffer, dmesg_fd);
     }
 
     LogKlog* kl = nullptr;
