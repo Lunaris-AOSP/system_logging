@@ -31,7 +31,7 @@ class LogAudit : public SocketListener {
     bool initialized;
 
   public:
-    LogAudit(LogBuffer* buf, int fdDmesg, LogStatistics* stats);
+    LogAudit(LogBuffer* buf, int fdDmesg);
     int log(char* buf, size_t len);
 
   protected:
@@ -44,6 +44,4 @@ class LogAudit : public SocketListener {
     std::string auditParse(const std::string& string, uid_t uid);
     int logPrint(const char* fmt, ...)
         __attribute__((__format__(__printf__, 2, 3)));
-
-    LogStatistics* stats_;
 };

@@ -48,14 +48,13 @@ using android::base::GetBoolProperty;
     '<', '0' + LOG_MAKEPRI(LOG_AUTH, LOG_PRI(PRI)) / 10, \
         '0' + LOG_MAKEPRI(LOG_AUTH, LOG_PRI(PRI)) % 10, '>'
 
-LogAudit::LogAudit(LogBuffer* buf, int fdDmesg, LogStatistics* stats)
+LogAudit::LogAudit(LogBuffer* buf, int fdDmesg)
     : SocketListener(getLogSocket(), false),
       logbuf(buf),
       fdDmesg(fdDmesg),
       main(GetBoolProperty("ro.logd.auditd.main", true)),
       events(GetBoolProperty("ro.logd.auditd.events", true)),
-      initialized(false),
-      stats_(stats) {
+      initialized(false) {
     static const char auditd_message[] = { KMSG_PRIORITY(LOG_INFO),
                                            'l',
                                            'o',
@@ -235,7 +234,7 @@ int LogAudit::logPrint(const char* fmt, ...) {
             ++cp;
         }
         tid = pid;
-        uid = stats_->PidToUid(pid);
+        uid = android::pidToUid(pid);
         memmove(pidptr, cp, strlen(cp) + 1);
     }
 
@@ -322,7 +321,7 @@ int LogAudit::logPrint(const char* fmt, ...) {
         pid = tid;
         comm = "auditd";
     } else {
-        comm = commfree = stats_->PidToName(pid);
+        comm = commfree = android::pidToName(pid);
         if (!comm) {
             comm = "unknown";
         }
