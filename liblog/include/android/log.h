@@ -59,6 +59,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <sys/cdefs.h>
+#include <sys/time.h>
 
 #if !defined(__BIONIC__) && !defined(__INTRODUCED_IN)
 #define __INTRODUCED_IN(x)
@@ -273,6 +274,18 @@ void __android_log_set_logger(__android_logger_function logger) __INTRODUCED_IN(
  * Available since API level 30.
  */
 void __android_log_logd_logger(const struct __android_log_message* log_message) __INTRODUCED_IN(30);
+
+/**
+ * Writes the log message to logd using the passed in timestamp.
+ *
+ * @param log_message the log message to write, see {@link __android_log_message}.
+ * @param timestamp the time to use for this log message. The value is interpreted as a
+ * CLOCK_REALTIME value.
+ *
+ * Available since API level 37.
+ */
+void __android_log_logd_logger_with_timestamp(const struct __android_log_message* log_message,
+                                              struct timespec* timestamp) __INTRODUCED_IN(37);
 
 /**
  * Writes the log message to stderr.  This is an {@link __android_logger_function} and can be provided to
