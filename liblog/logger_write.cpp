@@ -197,7 +197,7 @@ void __android_log_call_aborter(const char* abort_message) {
 
 #ifdef __ANDROID__
 static int write_to_log(log_id_t log_id, struct iovec* vec, size_t nr,
-                        struct timespec* timestamp = nullptr) {
+                        const struct timespec* timestamp = nullptr) {
   if (log_id == LOG_ID_KERNEL) {
     return -EINVAL;
   }
@@ -233,7 +233,7 @@ static int write_to_log(log_id_t log_id, struct iovec* vec, size_t nr,
   return ret;
 }
 #else
-static int write_to_log(log_id_t, struct iovec*, size_t, struct timespec* = nullptr) {
+static int write_to_log(log_id_t, struct iovec*, size_t, const struct timespec* = nullptr) {
   // Non-Android text logs should go to __android_log_stderr_logger, not here.
   // Non-Android binary logs are always dropped.
   return 1;
@@ -339,7 +339,7 @@ void __android_log_logd_logger(const struct __android_log_message* log_message) 
 }
 
 void __android_log_logd_logger_with_timestamp(const struct __android_log_message* log_message,
-                                              struct timespec* timestamp) {
+                                              const struct timespec* timestamp) {
   if (log_to_file_if_overridden(log_message)) return;
 
   int buffer_id = log_message->buffer_id == LOG_ID_DEFAULT ? LOG_ID_MAIN : log_message->buffer_id;

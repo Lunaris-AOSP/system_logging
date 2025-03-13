@@ -285,7 +285,7 @@ void __android_log_logd_logger(const struct __android_log_message* log_message) 
  * Available since API level 37.
  */
 void __android_log_logd_logger_with_timestamp(const struct __android_log_message* log_message,
-                                              struct timespec* timestamp) __INTRODUCED_IN(37);
+                                              const struct timespec* timestamp) __INTRODUCED_IN(37);
 
 /**
  * Writes the log message to stderr.  This is an {@link __android_logger_function} and can be provided to
