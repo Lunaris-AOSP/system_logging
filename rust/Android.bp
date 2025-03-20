@@ -8,6 +8,7 @@ rust_library {
     crate_name: "logger",
     srcs: ["logger.rs"],
     rustlibs: [
+        "libenv_filter",
         "libenv_logger",
         "liblog_rust",
     ],
@@ -81,6 +82,7 @@ rust_test {
     defaults: ["liblogger_test_defaults"],
     srcs: ["logger.rs"],
     rustlibs: [
+        "libenv_filter",
         "libenv_logger",
         "libandroid_logger",
     ],
@@ -90,7 +92,10 @@ rust_test_host {
     name: "logger_host_unit_tests",
     defaults: ["liblogger_test_defaults"],
     srcs: ["logger.rs"],
-    rustlibs: ["libenv_logger"],
+    rustlibs: [
+        "libenv_filter",
+        "libenv_logger",
+    ],
 }
 
 // The following tests are each run as separate targets because they all require a clean init state.
