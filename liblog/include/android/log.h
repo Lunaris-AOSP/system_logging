@@ -94,8 +94,8 @@ typedef enum android_LogPriority {
 } android_LogPriority;
 
 /**
- * Writes the constant string `text` to the log, with priority `prio` and tag
- * `tag`.
+ * Writes the constant string `text` to the log,
+ * with priority `prio` (one of the `android_LogPriority` values) and tag `tag`.
  *
  * @return 1 if the message was written to the log, or -EPERM if it was not; see
  * __android_log_is_loggable().
@@ -103,7 +103,9 @@ typedef enum android_LogPriority {
 int __android_log_write(int prio, const char* tag, const char* text);
 
 /**
- * Writes a formatted string to the log, with priority `prio` and tag `tag`.
+ * Writes a formatted string to the log,
+ * with priority `prio` (one of the `android_LogPriority` values) and tag `tag`.
+ *
  * The details of formatting are the same as for
  * [printf(3)](http://man7.org/linux/man-pages/man3/printf.3.html).
  *
@@ -172,24 +174,25 @@ typedef enum log_id {
   LOG_ID_DEFAULT = 0x7FFFFFFF
 } log_id_t;
 
-static inline bool __android_log_id_is_valid(log_id_t id) {
-  return id >= LOG_ID_MIN && id < LOG_ID_MAX;
+static inline bool __android_log_id_is_valid(log_id_t log_id) {
+  return log_id >= LOG_ID_MIN && log_id < LOG_ID_MAX;
 }
 
 /**
- * Writes the constant string `text` to the log buffer `id`,
- * with priority `prio` and tag `tag`.
+ * Writes the string `text` to the log buffer `log_id` (one of the `log_id_t` values),
+ * with priority `prio` (one of the `android_LogPriority` values) and tag `tag`.
  *
  * Apps should use __android_log_write() instead.
  *
  * @return 1 if the message was written to the log, or -EPERM if it was not; see
  * __android_log_is_loggable().
  */
-int __android_log_buf_write(int bufID, int prio, const char* tag, const char* text);
+int __android_log_buf_write(int log_id, int prio, const char* tag, const char* text);
 
 /**
- * Writes a formatted string to log buffer `id`,
- * with priority `prio` and tag `tag`.
+ * Writes a formatted string to the log buffer `log_id` (one of the `log_id_t` values),
+ * with priority `prio` (one of the `android_LogPriority` values) and tag `tag`.
+ *
  * The details of formatting are the same as for
  * [printf(3)](http://man7.org/linux/man-pages/man3/printf.3.html).
  *
@@ -198,7 +201,7 @@ int __android_log_buf_write(int bufID, int prio, const char* tag, const char* te
  * @return 1 if the message was written to the log, or -EPERM if it was not; see
  * __android_log_is_loggable().
  */
-int __android_log_buf_print(int bufID, int prio, const char* tag, const char* fmt, ...)
+int __android_log_buf_print(int log_id, int prio, const char* tag, const char* fmt, ...)
     __attribute__((__format__(printf, 4, 5)));
 
 /**
