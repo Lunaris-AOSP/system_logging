@@ -382,7 +382,7 @@ void __android_log_write_log_message(__android_log_message* log_message) {
   logger_function(log_message);
 }
 
-int __android_log_buf_write(int bufID, int prio, const char* tag, const char* msg) {
+int __android_log_buf_write(int log_id, int prio, const char* tag, const char* msg) {
   ErrnoRestorer errno_restorer;
 
   if (!__android_log_is_loggable(prio, tag, ANDROID_LOG_VERBOSE)) {
@@ -390,7 +390,7 @@ int __android_log_buf_write(int bufID, int prio, const char* tag, const char* ms
   }
 
   __android_log_message log_message = {
-      sizeof(__android_log_message), bufID, prio, tag, nullptr, 0, msg};
+      sizeof(__android_log_message), log_id, prio, tag, nullptr, 0, msg};
   __android_log_write_log_message(&log_message);
   return 1;
 }
@@ -432,7 +432,7 @@ int __android_log_print(int prio, const char* tag, const char* fmt, ...) {
   return 1;
 }
 
-int __android_log_buf_print(int bufID, int prio, const char* tag, const char* fmt, ...) {
+int __android_log_buf_print(int log_id, int prio, const char* tag, const char* fmt, ...) {
   ErrnoRestorer errno_restorer;
 
   if (!__android_log_is_loggable(prio, tag, ANDROID_LOG_VERBOSE)) {
@@ -447,7 +447,7 @@ int __android_log_buf_print(int bufID, int prio, const char* tag, const char* fm
   va_end(ap);
 
   __android_log_message log_message = {
-      sizeof(__android_log_message), bufID, prio, tag, nullptr, 0, buf};
+      sizeof(__android_log_message), log_id, prio, tag, nullptr, 0, buf};
   __android_log_write_log_message(&log_message);
   return 1;
 }

@@ -121,6 +121,8 @@ pub fn init(config: Config) -> bool {
     let mut builder = android_logger::Config::default();
     if let Some(log_level) = config.log_level {
         builder = builder.with_max_level(log_level);
+    } else {
+        builder = builder.with_max_level(log::LevelFilter::Off);
     }
     if let Some(custom_format) = config.custom_format {
         builder = builder.format(move |f, r| {
@@ -129,7 +131,7 @@ pub fn init(config: Config) -> bool {
         });
     }
     if let Some(filter_str) = config.filter {
-        let filter = env_logger::filter::Builder::new().parse(filter_str).build();
+        let filter = env_filter::Builder::new().parse(filter_str).build();
         builder = builder.with_filter(filter);
     }
     if let Some(tag) = config.tag {
